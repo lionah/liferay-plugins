@@ -24,7 +24,7 @@
 </liferay-util:buffer>
 
 <%
-int x = html.indexOf("<li class=\"user-avatar \" id=\"_145_userAvatar\">");
+int x = html.indexOf("<li class=\"my-sites has-submenu\" id=\"_145_mySites\">");
 %>
 
 <c:choose>
