@@ -251,8 +251,8 @@
 
 .contacts-portlet .lfr-members-grid-item {
 	float: left;
-	height: 50px;
-	margin-bottom: 10px;
+	height: 60px;
+	margin-bottom: 5px;
 	max-width: 300px;
 	min-width: 200px;
 	overflow: hidden;
