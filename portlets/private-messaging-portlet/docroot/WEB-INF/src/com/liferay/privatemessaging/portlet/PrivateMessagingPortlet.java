@@ -18,8 +18,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
-import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -34,10 +34,8 @@ import com.liferay.portlet.messageboards.service.MBMessageLocalServiceUtil;
 import com.liferay.privatemessaging.service.UserThreadLocalServiceUtil;
 import com.liferay.privatemessaging.util.PrivateMessagingUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
-import com.liferay.util.servlet.ServletResponseUtil;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.ArrayList;
@@ -150,33 +148,31 @@ public class PrivateMessagingPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(
-			actionRequest);
+		UploadPortletRequest uploadPortletRequest =
+			PortalUtil.getUploadPortletRequest(actionRequest);
 
-		long userId = ParamUtil.getLong(uploadRequest, "userId");
-		long mbThreadId = ParamUtil.getLong(uploadRequest, "mbThreadId");
-		String to = ParamUtil.getString(uploadRequest, "to");
-		String subject = ParamUtil.getString(uploadRequest, "subject");
-		String body = ParamUtil.getString(uploadRequest, "body");
-		List<ObjectValuePair<String, byte[]>> files =
-			new ArrayList<ObjectValuePair<String, byte[]>>();
+		long userId = ParamUtil.getLong(uploadPortletRequest, "userId");
+		long mbThreadId = ParamUtil.getLong(uploadPortletRequest, "mbThreadId");
+		String to = ParamUtil.getString(uploadPortletRequest, "to");
+		String subject = ParamUtil.getString(uploadPortletRequest, "subject");
+		String body = ParamUtil.getString(uploadPortletRequest, "body");
+		List<ObjectValuePair<String, File>> files =
+			new ArrayList<ObjectValuePair<String, File>>();
 
 		for (int i = 1; i <= 3; i++) {
-			File file = uploadRequest.getFile("msgFile" + i);
-			String fileName = uploadRequest.getFileName("msgFile" + i);
+			File file = uploadPortletRequest.getFile("msgFile" + i);
+			String fileName = uploadPortletRequest.getFileName("msgFile" + i);
 
 			try {
-				byte[] bytes = FileUtil.getBytes(file);
-
-				if ((bytes != null) && (bytes.length > 0)) {
-					ObjectValuePair<String, byte[]> ovp =
-						new ObjectValuePair<String, byte[]>(fileName, bytes);
+				if ((file != null) && (file.length() > 0)) {
+					ObjectValuePair<String, File> ovp =
+						new ObjectValuePair<String, File>(fileName, file);
 
 					files.add(ovp);
 				}
 			}
-			catch (IOException ioe) {
-				_log.error("unable to attach file " + fileName, ioe);
+			catch (Exception e) {
+				_log.error("unable to attach file " + fileName, e);
 			}
 		}
 
