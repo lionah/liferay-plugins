@@ -208,7 +208,7 @@ public class LayoutUtil {
 		portletSetup.setValue("show-feed-item-author", "false");
 		portletSetup.setValue(
 			"urls",
-			"http://www.economist.com/rss/daily_news_and_views_rss.xml");
+			"http://partners.userland.com/nytRss/technology.xml");
 
 		portletSetup.store();
 	}
