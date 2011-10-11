@@ -19,31 +19,37 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
-<%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.marketplace.util.MarketplaceConstants" %><%@
+page import="com.liferay.marketplace.util.MarketplaceUtil" %><%@
 page import="com.liferay.marketplace.util.PortletKeys" %><%@
-page import="com.liferay.portal.kernel.util.ParamUtil" %>
-
-<%@ page import="javax.portlet.WindowState" %>
+page import="com.liferay.portal.kernel.util.HttpUtil" %><%@
+page import="com.liferay.portal.kernel.util.StringPool" %><%@
+page import="com.liferay.portal.kernel.util.Validator" %>
 
 <portlet:defineObjects />
 
 <liferay-theme:defineObjects />
 
 <%
-long appId = ParamUtil.getLong(request, "appId");
+String iFrameURL = StringPool.BLANK;
 
-Strign portletId = portletDisplay.getId();
+if (Validator.equals(portletDisplay.getId(), PortletKeys.MY_MARKETPLACE)) {
+	String refererURL = MarketplaceConstants.MARKETPLACE_URL_MANAGE_APPS;
 
-String iFrameURL = MarketplaceConstants.MARKETPLACE_URL_HOME;
+	refererURL = HttpUtil.setParameter(refererURL, "clientURL", MarketplaceUtil.getClientURL(request));
+	refererURL = HttpUtil.setParameter(refererURL, "clientId", MarketplaceUtil.getClientId(user.getUserId()));
 
-if (portletId.equals(PortletKeys.MY_MARKETPLACE)) {
-	iFrameURL = MarketplaceConstants.MARKETPLACE_URL_MANAGE_APPS;
+	iFrameURL = HttpUtil.setParameter(MarketplaceConstants.MARKETPLACE_URL_LOGOUT, "referer", refererURL);
 }
-else if (portletId.equals(PortletKeys.STORE) && (appId > 0)) {
-	iFrameURL = iFrameURL + "/application/" + appId;
+else {
+	String refererURL = MarketplaceConstants.MARKETPLACE_URL_HOME;
+
+	refererURL = HttpUtil.setParameter(refererURL, "clientURL", MarketplaceUtil.getClientURL(request));
+	refererURL = HttpUtil.setParameter(refererURL, "clientId", MarketplaceUtil.getClientId(user.getUserId()));
+
+	iFrameURL = HttpUtil.setParameter(MarketplaceConstants.MARKETPLACE_URL_LOGOUT, "referer", refererURL);
 }
 %>
