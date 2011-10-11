@@ -23,16 +23,33 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.marketplace.util.MarketplaceConstants" %><%@
-page import="com.liferay.marketplace.util.PortletKeys" %>
+page import="com.liferay.marketplace.util.MarketplaceUtil" %><%@
+page import="com.liferay.marketplace.util.PortletKeys" %><%@
+page import="com.liferay.portal.kernel.util.HttpUtil" %><%@
+page import="com.liferay.portal.kernel.util.StringPool" %><%@
+page import="com.liferay.portal.kernel.util.Validator" %>
 
 <portlet:defineObjects />
 
 <liferay-theme:defineObjects />
 
 <%
-String iFrameURL = MarketplaceConstants.MARKETPLACE_URL_HOME;
+String iFrameURL = StringPool.BLANK;
 
-if (portletName.equals(PortletKeys.MY_MARKETPLACE)) {
-	iFrameURL = MarketplaceConstants.MARKETPLACE_URL_MANAGE_APPS;
+if (Validator.equals(portletDisplay.getId(), PortletKeys.MY_MARKETPLACE)) {
+	String refererURL = MarketplaceConstants.MARKETPLACE_URL_MANAGE_APPS;
+
+	refererURL = HttpUtil.setParameter(refererURL, "clientURL", MarketplaceUtil.getClientURL(request));
+	refererURL = HttpUtil.setParameter(refererURL, "clientId", MarketplaceUtil.getClientId(user.getUserId()));
+
+	iFrameURL = HttpUtil.setParameter(MarketplaceConstants.MARKETPLACE_URL_LOGOUT, "referer", refererURL);
+}
+else {
+	String refererURL = MarketplaceConstants.MARKETPLACE_URL_HOME;
+
+	refererURL = HttpUtil.setParameter(refererURL, "clientURL", MarketplaceUtil.getClientURL(request));
+	refererURL = HttpUtil.setParameter(refererURL, "clientId", MarketplaceUtil.getClientId(user.getUserId()));
+
+	iFrameURL = HttpUtil.setParameter(MarketplaceConstants.MARKETPLACE_URL_LOGOUT, "referer", refererURL);
 }
 %>
