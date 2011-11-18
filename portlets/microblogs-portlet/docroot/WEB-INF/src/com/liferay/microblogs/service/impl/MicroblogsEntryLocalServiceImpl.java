@@ -122,12 +122,6 @@ public class MicroblogsEntryLocalServiceImpl
 
 		microblogsEntryPersistence.remove(microblogsEntry);
 
-		// Asset
-
-		AssetEntryLocalServiceUtil.deleteEntry(
-			MicroblogsEntry.class.getName(),
-			microblogsEntry.getMicroblogsEntryId());
-
 		// Social
 
 		AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry(
@@ -135,6 +129,12 @@ public class MicroblogsEntryLocalServiceImpl
 			microblogsEntry.getMicroblogsEntryId());
 
 		SocialActivityLocalServiceUtil.deleteActivities(assetEntry);
+
+		// Asset
+
+		AssetEntryLocalServiceUtil.deleteEntry(
+			MicroblogsEntry.class.getName(),
+			microblogsEntry.getMicroblogsEntryId());
 	}
 
 	public void deleteUserMicroblogsEntries(long userId)
