@@ -74,6 +74,8 @@
 							userDisplayURL = curUser.getDisplayURL(themeDisplay);
 							userPortaitURL = curUser.getPortraitURL(themeDisplay);
 						}
+
+						int curDaysBetween = DateUtil.getDaysBetween(new Date(notificationEvent.getTimestamp()), new Date(), timeZone);
 						%>
 
 						<liferay-ui:search-container-column-text name="notifications" valign="top">

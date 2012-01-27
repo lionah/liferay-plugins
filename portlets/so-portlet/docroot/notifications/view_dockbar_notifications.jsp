@@ -59,6 +59,8 @@ int notificationEventsCount = notificationEvents.size();
 					userDisplayURL = curUser.getDisplayURL(themeDisplay);
 					userPortaitURL = curUser.getPortraitURL(themeDisplay);
 				}
+
+				int curDaysBetween = DateUtil.getDaysBetween(new Date(notificationEvent.getTimestamp()), new Date(), timeZone);
 			%>
 
 				<c:choose>
