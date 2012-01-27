@@ -19,18 +19,27 @@ package com.liferay.so.hook.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.notifications.ChannelHubManagerUtil;
+import com.liferay.portal.kernel.notifications.NotificationEvent;
+import com.liferay.portal.kernel.notifications.NotificationEventFactoryUtil;
 import com.liferay.portal.model.Group;
+import com.liferay.portal.model.User;
 import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.security.permission.ActionKeys;
 import com.liferay.portal.security.permission.PermissionChecker;
 import com.liferay.portal.security.permission.PermissionThreadLocal;
 import com.liferay.portal.service.permission.PortletPermissionUtil;
+import com.liferay.portal.service.persistence.GroupUtil;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PortletKeys;
 import com.liferay.portlet.announcements.model.AnnouncementsEntry;
 import com.liferay.portlet.announcements.service.AnnouncementsEntryLocalServiceUtil;
 import com.liferay.portlet.announcements.service.AnnouncementsEntryService;
 import com.liferay.portlet.announcements.service.AnnouncementsEntryServiceWrapper;
+
+import java.util.List;
 
 /**
  * @author Jonathan Lee
@@ -88,7 +97,38 @@ public class AnnouncementsEntryServiceImpl
 			}
 		}
 
+		if (announcementEntry != null) {
+			sendNotificationEvent(announcementEntry);
+		}
+
 		return announcementEntry;
+	}
+
+	protected void sendNotificationEvent(AnnouncementsEntry announcementEntry)
+		throws PortalException, SystemException {
+
+		JSONObject notificationEventJSON = JSONFactoryUtil.createJSONObject();
+
+		notificationEventJSON.put("body", announcementEntry.getTitle());
+		notificationEventJSON.put("entryId", announcementEntry.getEntryId());
+		notificationEventJSON.put("groupId", announcementEntry.getClassPK());
+		notificationEventJSON.put("portletId", PortletKeys.ANNOUNCEMENTS);
+		notificationEventJSON.put("title", "x-sent-a-new-announcement");
+		notificationEventJSON.put("userId", announcementEntry.getUserId());
+
+		NotificationEvent notificationEvent =
+			NotificationEventFactoryUtil.createNotificationEvent(
+				System.currentTimeMillis(), "6_WAR_soportlet",
+				notificationEventJSON);
+
+		notificationEvent.setDeliveryRequired(0);
+
+		List<User> users = GroupUtil.getUsers(announcementEntry.getClassPK());
+
+		for (User user : users) {
+			ChannelHubManagerUtil.sendNotificationEvent(
+				user.getCompanyId(), user.getUserId(), notificationEvent);
+		}
 	}
 
 }
