@@ -81,6 +81,9 @@
 								<c:when test='<%= portletId.equals(PortletKeys.SO_INVITE_MEMBERS) %>'>
 									<%@ include file="/notifications/view_member_request.jspf" %>
 								</c:when>
+								<c:when test='<%= portletId.equals(PortletKeys.ANNOUNCEMENTS) %>'>
+									<%@ include file="/notifications/view_announcement.jspf" %>
+								</c:when>
 								<c:when test='<%= portletId.equals("1_WAR_contactsportlet") %>'>
 									<%@ include file="/notifications/view_social_request.jspf" %>
 								</c:when>
