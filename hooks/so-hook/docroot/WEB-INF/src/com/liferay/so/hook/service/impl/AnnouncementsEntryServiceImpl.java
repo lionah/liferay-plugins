@@ -44,6 +44,7 @@ import com.liferay.portlet.announcements.service.AnnouncementsEntryService;
 import com.liferay.portlet.announcements.service.AnnouncementsEntryServiceWrapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
