@@ -35,12 +35,9 @@ catch (Exception e) {
 	<c:when test="<%= entry != null %>">
 
 		<%
-		String className = PortalUtil.getClassName(entry.getClassNameId());
-		long classPK = entry.getClassPK();
+		AssetRendererFactory assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(PortalUtil.getClassName(entry.getClassNameId()));
 
-		AssetRendererFactory assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(className);
-
-		AssetRenderer assetRenderer = assetRendererFactory.getAssetRenderer(classPK);
+		AssetRenderer assetRenderer = assetRendererFactory.getAssetRenderer(entry.getClassPK());
 
 		request.setAttribute("view.jsp-results", new ArrayList());
 
@@ -52,8 +49,8 @@ catch (Exception e) {
 
 		request.setAttribute("view.jsp-title", entry.getTitle());
 
-		request.setAttribute("view.jsp-className", className);
-		request.setAttribute("view.jsp-classPK", new Long(classPK));
+		request.setAttribute("view.jsp-className", PortalUtil.getClassName(entry.getClassNameId()));
+		request.setAttribute("view.jsp-classPK", new Long(entry.getClassPK()));
 
 		request.setAttribute("view.jsp-show", Boolean.TRUE);
 		request.setAttribute("view.jsp-print", Boolean.FALSE);
@@ -93,10 +90,7 @@ catch (Exception e) {
 				for (int assetEntryIndex = 0; assetEntryIndex < results.size(); assetEntryIndex++) {
 					AssetEntry assetEntry = (AssetEntry)results.get(assetEntryIndex);
 
-					String className = PortalUtil.getClassName(assetEntry.getClassNameId());
-					long classPK = assetEntry.getClassPK();
-
-					AssetRendererFactory assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(className);
+					AssetRendererFactory assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClassName(PortalUtil.getClassName(assetEntry.getClassNameId()));
 
 					if (assetRendererFactory == null) {
 						continue;
@@ -105,7 +99,7 @@ catch (Exception e) {
 					AssetRenderer assetRenderer = null;
 
 					try {
-						assetRenderer = assetRendererFactory.getAssetRenderer(classPK);
+						assetRenderer = assetRendererFactory.getAssetRenderer(assetEntry.getClassPK());
 					}
 					catch (Exception e) {
 					}
