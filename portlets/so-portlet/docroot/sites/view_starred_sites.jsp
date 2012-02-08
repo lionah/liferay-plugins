@@ -22,7 +22,7 @@
 <%
 String searchName = DAOParamUtil.getLike(request, "name");
 
-List<Group> starredSites = SitesUtil.getStarredSites(themeDisplay, null);
+List<Group> starredSites = SitesUtil.getStarredSites(themeDisplay, null, maxResultSize);
 
 if (PortalPermissionUtil.contains(permissionChecker, ActionKeys.VIEW_CONTROL_PANEL)) {
 	Group controlPanelGroup = GroupLocalServiceUtil.getGroup(user.getCompanyId(), GroupConstants.CONTROL_PANEL);
