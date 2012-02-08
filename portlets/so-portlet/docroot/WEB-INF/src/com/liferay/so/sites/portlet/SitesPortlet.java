@@ -233,9 +233,10 @@ public class SitesPortlet extends MVCPortlet {
 		}
 		else {
 			if (searchTab.equals("my-favorites")) {
-				groups = SitesUtil.getStarredSites(themeDisplay, name,
-					maxResultSize);
-				groupsCount = groups.size();
+				groups = SitesUtil.getStarredSites(
+					themeDisplay, name, maxResultSize);
+				groupsCount = SitesUtil.getStarredSitesCount(
+					themeDisplay, name);
 			}
 			else if (searchTab.equals("my-sites")) {
 				groups = SitesUtil.getVisibleSites(
