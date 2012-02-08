@@ -72,7 +72,7 @@ public class SitesUtil {
 	}
 
 	public static List<Group> getStarredSites(
-			ThemeDisplay themeDisplay, String name)
+			ThemeDisplay themeDisplay, String name, int maxResultSize)
 		throws Exception {
 
 		String starredGroupIds = StringPool.BLANK;
@@ -93,11 +93,15 @@ public class SitesUtil {
 
 		long[] groupIds = StringUtil.split(starredGroupIds, 0L);
 
-		List<Group> groups = new ArrayList<Group>(groupIds.length);
+		if (groupIds.length < maxResultSize) {
+			maxResultSize = groupIds.length;
+		}
 
-		for (long groupId : groupIds) {
+		List<Group> groups = new ArrayList<Group>(maxResultSize);
+
+		for (int i = 0; i < maxResultSize; i++) {
 			try {
-				Group curGroup = GroupServiceUtil.getGroup(groupId);
+				Group curGroup = GroupServiceUtil.getGroup(groupIds[i]);
 
 				if (Validator.isNull(name)) {
 					groups.add(curGroup);
@@ -114,7 +118,7 @@ public class SitesUtil {
 				}
 			}
 			catch (Exception e) {
-				StringUtil.remove(starredGroupIds, String.valueOf(groupId));
+				StringUtil.remove(starredGroupIds, String.valueOf(groupIds[i]));
 
 				portletPreferences.setValue("starredGroupIds", starredGroupIds);
 
