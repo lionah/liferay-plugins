@@ -131,6 +131,55 @@ public class SitesUtil {
 		return groups;
 	}
 
+	public static int getStarredSitesCount(
+			ThemeDisplay themeDisplay, String name)
+		throws Exception {
+
+		String starredGroupIds = StringPool.BLANK;
+
+		User user = themeDisplay.getUser();
+
+		Group group = user.getGroup();
+
+		PortletPreferences portletPreferences =
+			PortletPreferencesLocalServiceUtil.getPreferences(
+				user.getCompanyId(), group.getGroupId(),
+				PortletKeys.PREFS_OWNER_TYPE_GROUP, 0, "5_WAR_soportlet");
+
+		if (portletPreferences != null) {
+			starredGroupIds = portletPreferences.getValue(
+				"starredGroupIds", StringPool.BLANK);
+		}
+
+		long[] groupIds = StringUtil.split(starredGroupIds, 0L);
+
+		List<Group> groups = new ArrayList<Group>(groupIds.length);
+
+		for (long groupId : groupIds) {
+			try {
+				Group curGroup = GroupServiceUtil.getGroup(groupId);
+
+				if (Validator.isNull(name)) {
+					groups.add(curGroup);
+				}
+				else {
+					String groupDescriptiveName = curGroup.getDescriptiveName(
+						themeDisplay.getLocale());
+
+					groupDescriptiveName = groupDescriptiveName.toLowerCase();
+
+					if (groupDescriptiveName.contains(name.toLowerCase())) {
+						groups.add(curGroup);
+					}
+				}
+			}
+			catch (Exception e) {
+			}
+		}
+
+		return groups.size();
+	}
+
 	public static List<Group> getVisibleSites(
 		long companyId, long userId, String keywords, boolean usersSites,
 		int maxResultSize) {
