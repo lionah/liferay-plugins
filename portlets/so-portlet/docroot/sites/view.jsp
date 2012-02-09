@@ -29,8 +29,8 @@ List<Group> groups = null;
 int groupsCount = 0;
 
 if (tabs1.equals("my-favorites")) {
-	groups = SitesUtil.getStarredSites(themeDisplay, name);
-	groupsCount = groups.size();
+	groups = SitesUtil.getStarredSites(themeDisplay, name, maxResultSize);
+	groupsCount = SitesUtil.getStarredSitesCount(themeDisplay, name);
 }
 else if (tabs1.equals("my-sites")) {
 	groups = SitesUtil.getVisibleSites(themeDisplay.getCompanyId(), themeDisplay.getUserId(), searchName, true, maxResultSize);

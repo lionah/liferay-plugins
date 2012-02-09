@@ -72,6 +72,66 @@ public class SitesUtil {
 	}
 
 	public static List<Group> getStarredSites(
+			ThemeDisplay themeDisplay, String name, int maxResultSize)
+		throws Exception {
+
+		String starredGroupIds = StringPool.BLANK;
+
+		User user = themeDisplay.getUser();
+
+		Group group = user.getGroup();
+
+		PortletPreferences portletPreferences =
+			PortletPreferencesLocalServiceUtil.getPreferences(
+				user.getCompanyId(), group.getGroupId(),
+				PortletKeys.PREFS_OWNER_TYPE_GROUP, 0, "5_WAR_soportlet");
+
+		if (portletPreferences != null) {
+			starredGroupIds = portletPreferences.getValue(
+				"starredGroupIds", StringPool.BLANK);
+		}
+
+		long[] groupIds = StringUtil.split(starredGroupIds, 0L);
+
+		if (groupIds.length < maxResultSize) {
+			maxResultSize = groupIds.length;
+		}
+
+		List<Group> groups = new ArrayList<Group>(maxResultSize);
+
+		for (int i = 0; i < maxResultSize; i++) {
+			try {
+				Group curGroup = GroupServiceUtil.getGroup(groupIds[i]);
+
+				if (Validator.isNull(name)) {
+					groups.add(curGroup);
+				}
+				else {
+					String groupDescriptiveName = curGroup.getDescriptiveName(
+						themeDisplay.getLocale());
+
+					groupDescriptiveName = groupDescriptiveName.toLowerCase();
+
+					if (groupDescriptiveName.contains(name.toLowerCase())) {
+						groups.add(curGroup);
+					}
+				}
+			}
+			catch (Exception e) {
+				StringUtil.remove(starredGroupIds, String.valueOf(groupIds[i]));
+
+				portletPreferences.setValue("starredGroupIds", starredGroupIds);
+
+				portletPreferences.store();
+			}
+		}
+
+		Collections.sort(groups, new GroupNameComparator(true));
+
+		return groups;
+	}
+
+	public static int getStarredSitesCount(
 			ThemeDisplay themeDisplay, String name)
 		throws Exception {
 
@@ -114,17 +174,10 @@ public class SitesUtil {
 				}
 			}
 			catch (Exception e) {
-				StringUtil.remove(starredGroupIds, String.valueOf(groupId));
-
-				portletPreferences.setValue("starredGroupIds", starredGroupIds);
-
-				portletPreferences.store();
 			}
 		}
 
-		Collections.sort(groups, new GroupNameComparator(true));
-
-		return groups;
+		return groups.size();
 	}
 
 	public static List<Group> getVisibleSites(
