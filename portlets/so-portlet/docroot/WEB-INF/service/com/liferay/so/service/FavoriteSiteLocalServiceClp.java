@@ -97,12 +97,12 @@ public class FavoriteSiteLocalServiceClp implements FavoriteSiteLocalService {
 		_getUserFavoriteSitesMethodKey19 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getUserFavoriteSites", long.class, int.class, int.class);
 
-		_getUserFavoriteSitesCountMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getUserFavoriteSitesCount", long.class);
-
-		_getUserFavoriteSitesByNameMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getUserFavoriteSitesByNameMethodKey20 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getUserFavoriteSitesByName", long.class, long.class,
 				java.lang.String.class, int.class, int.class);
+
+		_getUserFavoriteSitesCountMethodKey21 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getUserFavoriteSitesCount", long.class);
 
 		_getUserFavoriteSitesCountByNameMethodKey22 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getUserFavoriteSitesCountByName", long.class, long.class,
@@ -666,39 +666,12 @@ public class FavoriteSiteLocalServiceClp implements FavoriteSiteLocalService {
 		return (java.util.List<com.liferay.so.model.FavoriteSite>)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public int getUserFavoriteSitesCount(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		MethodHandler methodHandler = new MethodHandler(_getUserFavoriteSitesCountMethodKey20,
-				userId);
-
-		try {
-			returnObj = _classLoaderProxy.invoke(methodHandler);
-		}
-		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return ((Integer)returnObj).intValue();
-	}
-
 	public java.util.List<com.liferay.so.model.FavoriteSite> getUserFavoriteSitesByName(
 		long companyId, long userId, java.lang.String name, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getUserFavoriteSitesByNameMethodKey21,
+		MethodHandler methodHandler = new MethodHandler(_getUserFavoriteSitesByNameMethodKey20,
 				companyId, userId, ClpSerializer.translateInput(name), start,
 				end);
 
@@ -720,6 +693,33 @@ public class FavoriteSiteLocalServiceClp implements FavoriteSiteLocalService {
 		}
 
 		return (java.util.List<com.liferay.so.model.FavoriteSite>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public int getUserFavoriteSitesCount(long userId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getUserFavoriteSitesCountMethodKey21,
+				userId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
 	}
 
 	public int getUserFavoriteSitesCountByName(long companyId, long userId,
@@ -802,8 +802,8 @@ public class FavoriteSiteLocalServiceClp implements FavoriteSiteLocalService {
 	private MethodKey _addFavoriteSiteMethodKey17;
 	private MethodKey _deleteFavoriteSiteMethodKey18;
 	private MethodKey _getUserFavoriteSitesMethodKey19;
-	private MethodKey _getUserFavoriteSitesCountMethodKey20;
-	private MethodKey _getUserFavoriteSitesByNameMethodKey21;
+	private MethodKey _getUserFavoriteSitesByNameMethodKey20;
+	private MethodKey _getUserFavoriteSitesCountMethodKey21;
 	private MethodKey _getUserFavoriteSitesCountByNameMethodKey22;
 	private MethodKey _isFavoriteSiteMethodKey23;
 }

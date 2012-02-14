@@ -274,16 +274,16 @@ public class FavoriteSiteLocalServiceWrapper implements FavoriteSiteLocalService
 		return _favoriteSiteLocalService.getUserFavoriteSites(userId, start, end);
 	}
 
-	public int getUserFavoriteSitesCount(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _favoriteSiteLocalService.getUserFavoriteSitesCount(userId);
-	}
-
 	public java.util.List<com.liferay.so.model.FavoriteSite> getUserFavoriteSitesByName(
 		long companyId, long userId, java.lang.String name, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _favoriteSiteLocalService.getUserFavoriteSitesByName(companyId,
 			userId, name, start, end);
+	}
+
+	public int getUserFavoriteSitesCount(long userId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _favoriteSiteLocalService.getUserFavoriteSitesCount(userId);
 	}
 
 	public int getUserFavoriteSitesCountByName(long companyId, long userId,

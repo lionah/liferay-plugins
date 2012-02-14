@@ -281,17 +281,17 @@ public class FavoriteSiteLocalServiceUtil {
 		return getService().getUserFavoriteSites(userId, start, end);
 	}
 
-	public static int getUserFavoriteSitesCount(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getUserFavoriteSitesCount(userId);
-	}
-
 	public static java.util.List<com.liferay.so.model.FavoriteSite> getUserFavoriteSitesByName(
 		long companyId, long userId, java.lang.String name, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
 				   .getUserFavoriteSitesByName(companyId, userId, name, start,
 			end);
+	}
+
+	public static int getUserFavoriteSitesCount(long userId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserFavoriteSitesCount(userId);
 	}
 
 	public static int getUserFavoriteSitesCountByName(long companyId,

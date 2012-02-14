@@ -251,12 +251,12 @@ public interface FavoriteSiteLocalService extends PersistedModelLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getUserFavoriteSitesCount(long userId)
+	public java.util.List<com.liferay.so.model.FavoriteSite> getUserFavoriteSitesByName(
+		long companyId, long userId, java.lang.String name, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.so.model.FavoriteSite> getUserFavoriteSitesByName(
-		long companyId, long userId, java.lang.String name, int start, int end)
+	public int getUserFavoriteSitesCount(long userId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
