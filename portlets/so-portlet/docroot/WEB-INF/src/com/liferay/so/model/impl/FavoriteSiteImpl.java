@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-2012 Liferay, Inc. All rights reserved.
  *
@@ -15,26 +14,24 @@
  * You should have received a copy of the GNU General Public License along with
  * Liferay Social Office. If not, see http://www.gnu.org/licenses/agpl-3.0.html.
  */
---%>
 
-<span class="site-name">
-	<c:if test="<%= favoriteSite.isRegularSite() && !favoriteSite.isControlPanel() %>">
+package com.liferay.so.model.impl;
 
-		<%
-		ExpandoBridge expandoBridge = favoriteSite.getExpandoBridge();
-
-		boolean socialOfficeEnabled = GetterUtil.getBoolean(expandoBridge.getAttribute("socialOfficeEnabled"));
-		%>
-
-		<c:choose>
-			<c:when test="<%= socialOfficeEnabled %>">
-				<liferay-ui:icon message="<%= favoriteSite.getDescriptiveName(locale) %>" src='<%= themeDisplay.getPathContext() + "/html/icons/social_office.png" %>' />
-			</c:when>
-			<c:otherwise>
-				<liferay-ui:icon message="<%= favoriteSite.getDescriptiveName(locale) %>" src='<%= themeDisplay.getPathContext() + "/html/icons/sites_admin.png" %>' />
-			</c:otherwise>
-		</c:choose>
-	</c:if>
-
-	<%= siteName %>
-</span>
+/**
+ * The extended model implementation for the FavoriteSite service. Represents a row in the &quot;SO_FavoriteSite&quot; database table, with each column mapped to a property of this class.
+ *
+ * <p>
+ * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.liferay.so.model.FavoriteSite} interface.
+ * </p>
+ *
+ * @author Brian Wing Shun Chan
+ */
+public class FavoriteSiteImpl extends FavoriteSiteBaseImpl {
+	/**
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never reference this class directly. All methods that expect a favorite site model instance should use the {@link com.liferay.so.model.FavoriteSite} interface instead.
+	 */
+	public FavoriteSiteImpl() {
+	}
+}
