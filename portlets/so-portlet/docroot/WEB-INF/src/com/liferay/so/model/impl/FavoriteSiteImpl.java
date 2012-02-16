@@ -1,4 +1,3 @@
-<%--
 /**
  * Copyright (c) 2000-2012 Liferay, Inc. All rights reserved.
  *
@@ -15,26 +14,29 @@
  * You should have received a copy of the GNU General Public License along with
  * Liferay Social Office. If not, see http://www.gnu.org/licenses/agpl-3.0.html.
  */
---%>
 
-<span class="site-name">
-	<c:if test="<%= group.isRegularSite() && !group.isControlPanel() %>">
+package com.liferay.so.model.impl;
 
-		<%
-		ExpandoBridge expandoBridge = group.getExpandoBridge();
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.Group;
+import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.so.service.FavoriteSiteLocalServiceUtil;
 
-		boolean socialOfficeEnabled = GetterUtil.getBoolean(expandoBridge.getAttribute("socialOfficeEnabled"));
-		%>
+/**
+ * @author Jonathan Lee
+ */
+public class FavoriteSiteImpl extends FavoriteSiteBaseImpl {
 
-		<c:choose>
-			<c:when test="<%= socialOfficeEnabled %>">
-				<liferay-ui:icon message="<%= group.getDescriptiveName(locale) %>" src='<%= themeDisplay.getPathContext() + "/html/icons/social_office.png" %>' />
-			</c:when>
-			<c:otherwise>
-				<liferay-ui:icon message="<%= group.getDescriptiveName(locale) %>" src='<%= themeDisplay.getPathContext() + "/html/icons/sites_admin.png" %>' />
-			</c:otherwise>
-		</c:choose>
-	</c:if>
+	public FavoriteSiteImpl() {
+	}
 
-	<%= siteName %>
-</span>
+	public Group getGroup() throws PortalException, SystemException{
+		return GroupLocalServiceUtil.fetchGroup(getGroupId());
+	}
+
+	public boolean isFavoriteSite() throws PortalException, SystemException {
+		return FavoriteSiteLocalServiceUtil.isFavoriteSite(getPrimaryKey());
+	}
+
+}
