@@ -32,7 +32,8 @@ else if (SocialRelationLocalServiceUtil.hasRelation(themeDisplay.getUserId(), us
 <c:if test="<%= viewRelationActions %>">
 	<c:choose>
 		<c:when test="<%= SocialRelationLocalServiceUtil.hasRelation(themeDisplay.getUserId(), user2.getUserId(), SocialRelationConstants.TYPE_BI_CONNECTION) %>">
-			<portlet:actionURL name="deleteSocialRelation" var="removeConnectionURL">
+			<portlet:actionURL var="removeConnectionURL">
+				<portlet:param name="<%= Constants.CMD %>" value="deleteSocialRelation" />
 				<portlet:param name="redirect" value="<%= currentURL %>" />
 				<portlet:param name="userId" value="<%= String.valueOf(user2.getUserId()) %>" />
 				<portlet:param name="type" value="<%= String.valueOf(SocialRelationConstants.TYPE_BI_CONNECTION) %>" />
@@ -56,7 +57,8 @@ else if (SocialRelationLocalServiceUtil.hasRelation(themeDisplay.getUserId(), us
 			/>
 		</c:when>
 		<c:when test="<%= SocialRelationLocalServiceUtil.isRelatable(themeDisplay.getUserId(), user2.getUserId(), SocialRelationConstants.TYPE_BI_CONNECTION) %>">
-			<portlet:actionURL name="requestSocialRelation" var="addConnectionURL">
+			<portlet:actionURL var="addConnectionURL">
+				<portlet:param name="<%= Constants.CMD %>" value="requestSocialRelation" />
 				<portlet:param name="redirect" value="<%= currentURL %>" />
 				<portlet:param name="userId" value="<%= String.valueOf(user2.getUserId()) %>" />
 				<portlet:param name="type" value="<%= String.valueOf(SocialRelationConstants.TYPE_BI_CONNECTION) %>" />
@@ -75,7 +77,8 @@ else if (SocialRelationLocalServiceUtil.hasRelation(themeDisplay.getUserId(), us
 
 	<c:choose>
 		<c:when test="<%= SocialRelationLocalServiceUtil.hasRelation(themeDisplay.getUserId(), user2.getUserId(), SocialRelationConstants.TYPE_UNI_FOLLOWER) %>">
-			<portlet:actionURL name="deleteSocialRelation" var="unfollowURL">
+			<portlet:actionURL var="unfollowURL">
+				<portlet:param name="<%= Constants.CMD %>" value="deleteSocialRelation" />
 				<portlet:param name="redirect" value="<%= currentURL %>" />
 				<portlet:param name="userId" value="<%= String.valueOf(user2.getUserId()) %>" />
 				<portlet:param name="type" value="<%= String.valueOf(SocialRelationConstants.TYPE_UNI_FOLLOWER) %>" />
@@ -91,7 +94,8 @@ else if (SocialRelationLocalServiceUtil.hasRelation(themeDisplay.getUserId(), us
 			/>
 		</c:when>
 		<c:when test="<%= SocialRelationLocalServiceUtil.isRelatable(themeDisplay.getUserId(), user2.getUserId(), SocialRelationConstants.TYPE_UNI_FOLLOWER) %>">
-			<portlet:actionURL name="addSocialRelation" var="followURL">
+			<portlet:actionURL var="followURL">
+				<portlet:param name="<%= Constants.CMD %>" value="addSocialRelation" />
 				<portlet:param name="redirect" value="<%= currentURL %>" />
 				<portlet:param name="userId" value="<%= String.valueOf(user2.getUserId()) %>" />
 				<portlet:param name="type" value="<%= String.valueOf(SocialRelationConstants.TYPE_UNI_FOLLOWER) %>" />
@@ -111,7 +115,8 @@ else if (SocialRelationLocalServiceUtil.hasRelation(themeDisplay.getUserId(), us
 
 <c:choose>
 	<c:when test="<%= SocialRelationLocalServiceUtil.hasRelation(themeDisplay.getUserId(), user2.getUserId(), SocialRelationConstants.TYPE_UNI_ENEMY) %>">
-		<portlet:actionURL name="deleteSocialRelation" var="unblockURL">
+		<portlet:actionURL var="unblockURL">
+			<portlet:param name="<%= Constants.CMD %>" value="deleteSocialRelation" />
 			<portlet:param name="redirect" value="<%= currentURL %>" />
 			<portlet:param name="userId" value="<%= String.valueOf(user2.getUserId()) %>" />
 			<portlet:param name="type" value="<%= String.valueOf(SocialRelationConstants.TYPE_UNI_ENEMY) %>" />
@@ -127,7 +132,8 @@ else if (SocialRelationLocalServiceUtil.hasRelation(themeDisplay.getUserId(), us
 		/>
 	</c:when>
 	<c:when test="<%= SocialRelationLocalServiceUtil.isRelatable(themeDisplay.getUserId(), user2.getUserId(), SocialRelationConstants.TYPE_UNI_ENEMY) %>">
-		<portlet:actionURL name="addSocialRelation" var="blockURL">
+		<portlet:actionURL var="blockURL">
+			<portlet:param name="<%= Constants.CMD %>" value="addSocialRelation" />
 			<portlet:param name="redirect" value="<%= currentURL %>" />
 			<portlet:param name="userId" value="<%= String.valueOf(user2.getUserId()) %>" />
 			<portlet:param name="type" value="<%= String.valueOf(SocialRelationConstants.TYPE_UNI_ENEMY) %>" />
