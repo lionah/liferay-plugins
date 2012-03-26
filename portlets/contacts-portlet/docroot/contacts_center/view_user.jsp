@@ -249,7 +249,7 @@ request.setAttribute("view_user.jsp-user", user2);
 												groupURL.setParameter("privateLayout", Boolean.FALSE.toString());
 											%>
 
-											<li class="user-information-sites"><a href="<%= groupURL %>"><%= currGroup.getDescriptiveName(locale) %></a></li>
+											<li class="user-information-sites"><a href="<%= groupURL %>"><%= HtmlUtil.escape(currGroup.getDescriptiveName(locale)) %></a></li>
 
 											<%
 											}
