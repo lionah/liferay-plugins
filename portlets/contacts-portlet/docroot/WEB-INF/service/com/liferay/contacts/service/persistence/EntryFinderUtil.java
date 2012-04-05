@@ -21,30 +21,31 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
  * @author Brian Wing Shun Chan
  */
 public class EntryFinderUtil {
-	public static int countByCompanyId(long companyId, long userId,
+	public static int countByC_U_FN_EA(long companyId, long userId,
 		java.lang.String keywords)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getFinder().countByCompanyId(companyId, userId, keywords);
+		return getFinder().countByC_U_FN_EA(companyId, userId, keywords);
 	}
 
-	public static int countByC_U_EA_FN(long companyId, long userId,
+	public static int countByC_U_FN_MN_LN_SN_EA(long companyId, long userId,
 		java.lang.String keywords)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getFinder().countByC_U_EA_FN(companyId, userId, keywords);
+		return getFinder().countByC_U_FN_MN_LN_SN_EA(companyId, userId, keywords);
 	}
 
-	public static java.util.List<java.lang.Object> findByCompanyId(
+	public static java.util.List<com.liferay.contacts.model.Entry> findByC_U_FN_EA(
 		long companyId, long userId, java.lang.String keywords, int start,
 		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder()
-				   .findByCompanyId(companyId, userId, keywords, start, end);
+				   .findByC_U_FN_EA(companyId, userId, keywords, start, end);
 	}
 
-	public static java.util.List<com.liferay.contacts.model.Entry> findByC_U_EA_FN(
+	public static java.util.List<java.lang.Object> findByC_U_FN_MN_LN_SN_EA(
 		long companyId, long userId, java.lang.String keywords, int start,
 		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return getFinder()
-				   .findByC_U_EA_FN(companyId, userId, keywords, start, end);
+				   .findByC_U_FN_MN_LN_SN_EA(companyId, userId, keywords,
+			start, end);
 	}
 
 	public static EntryFinder getFinder() {

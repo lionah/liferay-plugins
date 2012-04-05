@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 
 <custom-sql>
-	<sql id="com.liferay.contacts.service.persistence.EntryFinder.countByCompany">
+	<sql id="com.liferay.contacts.service.persistence.EntryFinder.countByC_U_FN_MN_LN_SN_EA">
 		<![CDATA[
 			SELECT
 				COUNT(*) AS COUNT_VALUE
 			FROM
-    		(
-    		    (
+			(
+				(
 					SELECT
 						userId as id, lastName as name, 1 as isUser
 					FROM
@@ -22,43 +22,43 @@
 							(lower(User_.emailAddress) LIKE ? [$AND_OR_NULL_CHECK$])
 						)
 				)
-        		UNION ALL
-        		(
+				UNION ALL
+				(
 					SELECT
 						entryId as id, fullName as name, 0 as isUser
 					FROM
 						Contacts_Entry
 					WHERE
-						userId = ? AND companyId = ? AND
+						companyId = ? AND userId = ? AND
 						(
 							(lower(Contacts_Entry.fullName) LIKE ? [$AND_OR_NULL_CHECK$]) [$AND_OR_CONNECTOR$]
 							(lower(Contacts_Entry.emailAddress) LIKE ? [$AND_OR_NULL_CHECK$])
 						)
 				)
-    		) as USERS_AND_CONTACTS
+		) as USERS_AND_CONTACTS
 		]]>
 	</sql>
-	<sql id="com.liferay.contacts.service.persistence.EntryFinder.countByC_U_EA_FN">
+	<sql id="com.liferay.contacts.service.persistence.EntryFinder.countByC_U_FN_EA">
 		<![CDATA[
 			SELECT
 				COUNT(*) AS COUNT_VALUE
 			FROM
 				Contacts_Entry
 			WHERE
-				userId = ? AND companyId = ? AND
+				companyId = ? AND userId = ? AND
 				(
 					(lower(Contacts_Entry.fullName) LIKE ? [$AND_OR_NULL_CHECK$]) [$AND_OR_CONNECTOR$]
 					(lower(Contacts_Entry.emailAddress) LIKE ? [$AND_OR_NULL_CHECK$])
 				)
 		]]>
 	</sql>
-	<sql id="com.liferay.contacts.service.persistence.EntryFinder.findByCompany">
+	<sql id="com.liferay.contacts.service.persistence.EntryFinder.findByC_U_FN_MN_LN_SN_EA">
 		<![CDATA[
 			SELECT
 				id, name, isUser
 			FROM
-    		(
-    		    (
+			(
+				(
 					SELECT
 						userId as id, lastName as name, 1 as isUser
 					FROM
@@ -73,32 +73,32 @@
 							(lower(User_.emailAddress) LIKE ? [$AND_OR_NULL_CHECK$])
 						)
 				)
-        		UNION ALL
-        		(
+				UNION ALL
+			(
 					SELECT
 						entryId as id, fullName as name, 0 as isUser
 					FROM
 						Contacts_Entry
 					WHERE
-						userId = ? AND companyId = ? AND
+						companyId = ? AND userId = ? AND
 						(
 							(lower(Contacts_Entry.fullName) LIKE ? [$AND_OR_NULL_CHECK$]) [$AND_OR_CONNECTOR$]
 							(lower(Contacts_Entry.emailAddress) LIKE ? [$AND_OR_NULL_CHECK$])
 						)
 				)
-    		) as USERS_AND_CONTACTS
+			) as USERS_AND_CONTACTS
 			ORDER BY
 				name
 		]]>
 	</sql>
-	<sql id="com.liferay.contacts.service.persistence.EntryFinder.findByC_U_EA_FN">
+	<sql id="com.liferay.contacts.service.persistence.EntryFinder.findByC_U_FN_EA">
 		<![CDATA[
 			SELECT
 				*
 			FROM
 				Contacts_Entry
 			WHERE
-				userId = ? AND companyId = ? AND
+				companyId = ? AND userId = ? AND
 				(
 					(lower(Contacts_Entry.fullName) LIKE ? [$AND_OR_NULL_CHECK$]) [$AND_OR_CONNECTOR$]
 					(lower(Contacts_Entry.emailAddress) LIKE ? [$AND_OR_NULL_CHECK$])

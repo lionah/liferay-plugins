@@ -420,13 +420,14 @@ public class EntryUtil {
 	* @param companyId the company ID
 	* @param userId the user ID
 	* @param emailAddress the email address
+	* @return the entry that was removed
 	* @throws SystemException if a system exception occurred
 	*/
-	public static void removeByC_U_EA(long companyId, long userId,
-		java.lang.String emailAddress)
+	public static com.liferay.contacts.model.Entry removeByC_U_EA(
+		long companyId, long userId, java.lang.String emailAddress)
 		throws com.liferay.contacts.NoSuchEntryException,
 			com.liferay.portal.kernel.exception.SystemException {
-		getPersistence().removeByC_U_EA(companyId, userId, emailAddress);
+		return getPersistence().removeByC_U_EA(companyId, userId, emailAddress);
 	}
 
 	/**

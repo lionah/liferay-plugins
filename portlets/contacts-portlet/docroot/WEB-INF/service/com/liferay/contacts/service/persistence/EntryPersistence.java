@@ -299,10 +299,11 @@ public interface EntryPersistence extends BasePersistence<Entry> {
 	* @param companyId the company ID
 	* @param userId the user ID
 	* @param emailAddress the email address
+	* @return the entry that was removed
 	* @throws SystemException if a system exception occurred
 	*/
-	public void removeByC_U_EA(long companyId, long userId,
-		java.lang.String emailAddress)
+	public com.liferay.contacts.model.Entry removeByC_U_EA(long companyId,
+		long userId, java.lang.String emailAddress)
 		throws com.liferay.contacts.NoSuchEntryException,
 			com.liferay.portal.kernel.exception.SystemException;
 
