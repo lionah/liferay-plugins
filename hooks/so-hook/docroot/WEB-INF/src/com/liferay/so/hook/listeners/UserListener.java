@@ -39,6 +39,7 @@ import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.so.util.LayoutSetPrototypeUtil;
 import com.liferay.so.util.RoleConstants;
+import com.liferay.portal.model.LayoutConstants;
 
 import java.util.List;
 
@@ -75,22 +76,43 @@ public class UserListener extends BaseModelListener<User> {
 				LayoutSetPrototypeUtil.fetchLayoutSetPrototype(user, false);
 
 			if (publicLayoutSetPrototype != null) {
+				List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(
+					group.getGroupId(), false,
+					LayoutConstants.DEFAULT_PARENT_LAYOUT_ID);
+
 				LayoutSetLocalServiceUtil.updateLayoutSetPrototypeLinkEnabled(
 					group.getGroupId(), false, true,
 					publicLayoutSetPrototype.getUuid());
+
+				orderUserLayouts(layouts);
 			}
 
 			LayoutSetPrototype privateLayoutSetPrototype =
 				LayoutSetPrototypeUtil.fetchLayoutSetPrototype(user, true);
 
 			if (privateLayoutSetPrototype != null) {
+				List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(
+					group.getGroupId(), true,
+					LayoutConstants.DEFAULT_PARENT_LAYOUT_ID);
+
 				LayoutSetLocalServiceUtil.updateLayoutSetPrototypeLinkEnabled(
 					group.getGroupId(), true, true,
 					privateLayoutSetPrototype.getUuid());
+
+				orderUserLayouts(layouts);
 			}
 		}
 		catch (Exception e) {
 			throw new ModelListenerException(e);
+		}
+	}
+
+	protected void orderUserLayouts(List<Layout> layouts)
+		throws PortalException, SystemException {
+
+		for (Layout layout : layouts) {
+			layout = LayoutLocalServiceUtil.updatePriority(
+				layout.getPlid(), layout.getPriority() + 1);
 		}
 	}
 
