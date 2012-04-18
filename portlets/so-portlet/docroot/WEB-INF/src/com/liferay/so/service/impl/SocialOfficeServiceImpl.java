@@ -36,12 +36,20 @@ public class SocialOfficeServiceImpl extends SocialOfficeServiceBaseImpl {
 	public long[] getUserSocialOfficeGroupIds()
 		throws PortalException, SystemException {
 
-		List<Group> groups = getUserSocialOfficeGroups();
+		List<Group> groups = GroupServiceUtil.getUserSites();
 
-		long[] groupIds = new long[groups.size()];
+		List<Group> socialOfficeGroups = new ArrayList<Group>(groups.size());
 
-		for (int i = 0; i < 0; i++) {
-			Group group = groups.get(i);
+		for (Group group : groups) {
+			if (isSocialOfficeGroup(group.getGroupId())) {
+				socialOfficeGroups.add(group);
+			}
+		}
+
+		long[] groupIds = new long[socialOfficeGroups.size()];
+
+		for (int i = 0; i < socialOfficeGroups.size(); i++) {
+			Group group = socialOfficeGroups.get(i);
 
 			groupIds[i] = group.getGroupId();
 		}
@@ -58,22 +66,6 @@ public class SocialOfficeServiceImpl extends SocialOfficeServiceBaseImpl {
 
 		return GetterUtil.getBoolean(
 			expandoBridge.getAttribute("socialOfficeEnabled"));
-	}
-
-	protected List<Group> getUserSocialOfficeGroups()
-		throws PortalException, SystemException {
-
-		List<Group> groups = GroupServiceUtil.getUserSites();
-
-		List<Group> userSocialOfficeGroups = new ArrayList<Group>();
-
-		for (Group group : groups) {
-			if (isSocialOfficeGroup(group.getGroupId())) {
-				userSocialOfficeGroups.add(group);
-			}
-		}
-
-		return userSocialOfficeGroups;
 	}
 
 }
