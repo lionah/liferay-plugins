@@ -21,13 +21,33 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.model.Group;
+import com.liferay.portal.service.GroupServiceUtil;
 import com.liferay.portlet.expando.model.ExpandoBridge;
 import com.liferay.so.service.base.SocialOfficeServiceBaseImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jonathan Lee
  */
 public class SocialOfficeServiceImpl extends SocialOfficeServiceBaseImpl {
+
+	public List<Group> getSocialOfficeSites()
+		throws PortalException, SystemException {
+
+		List<Group> userSocialOfficeSites = new ArrayList<Group>();
+
+		List<Group> groups = GroupServiceUtil.getUserSites();
+
+		for (Group group : groups) {
+			if (isSocialOfficeSite(group.getGroupId())) {
+				userSocialOfficeSites.add(group);
+			}
+		}
+
+		return userSocialOfficeSites;
+	}
 
 	public boolean isSocialOfficeSite(long groupId)
 		throws PortalException, SystemException {
