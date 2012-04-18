@@ -54,6 +54,20 @@ import java.rmi.RemoteException;
  * @generated
  */
 public class SocialOfficeServiceSoap {
+	public static com.liferay.portal.model.Group[] getSocialOfficeSites()
+		throws RemoteException {
+		try {
+			java.util.List<com.liferay.portal.model.Group> returnValue = SocialOfficeServiceUtil.getSocialOfficeSites();
+
+			return returnValue.toArray(new com.liferay.portal.model.Group[returnValue.size()]);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static boolean isSocialOfficeSite(long groupId)
 		throws RemoteException {
 		try {

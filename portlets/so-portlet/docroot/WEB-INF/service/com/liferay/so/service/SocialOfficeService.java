@@ -44,6 +44,11 @@ public interface SocialOfficeService {
 	 * Never modify or reference this interface directly. Always use {@link SocialOfficeServiceUtil} to access the social office remote service. Add custom service methods to {@link com.liferay.so.service.impl.SocialOfficeServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.portal.model.Group> getSocialOfficeSites()
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean isSocialOfficeSite(long groupId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;

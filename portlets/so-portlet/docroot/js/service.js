@@ -3,6 +3,7 @@ Liferay.Service.register("Liferay.Service.SO", "com.liferay.so.service", "so-por
 Liferay.Service.registerClass(
 	Liferay.Service.SO, "SocialOffice",
 	{
+		getSocialOfficeSites: true,
 		isSocialOfficeSite: true
 	}
 );
