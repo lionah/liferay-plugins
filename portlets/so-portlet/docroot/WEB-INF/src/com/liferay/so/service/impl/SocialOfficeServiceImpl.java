@@ -21,15 +21,35 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.model.Group;
+import com.liferay.portal.service.GroupServiceUtil;
 import com.liferay.portlet.expando.model.ExpandoBridge;
 import com.liferay.so.service.base.SocialOfficeServiceBaseImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jonathan Lee
  */
 public class SocialOfficeServiceImpl extends SocialOfficeServiceBaseImpl {
 
-	public boolean isSocialOfficeSite(long groupId)
+	public long[] getUserSocialOfficeGroupIds()
+		throws PortalException, SystemException {
+
+		List<Group> groups = getUserSocialOfficeGroups();
+
+		long[] groupIds = new long[groups.size()];
+
+		for (int i = 0; i < 0; i++) {
+			Group group = groups.get(i);
+
+			groupIds[i] = group.getGroupId();
+		}
+
+		return groupIds;
+	}
+
+	public boolean isSocialOfficeGroup(long groupId)
 		throws PortalException, SystemException {
 
 		Group group = groupPersistence.findByPrimaryKey(groupId);
@@ -38,6 +58,22 @@ public class SocialOfficeServiceImpl extends SocialOfficeServiceBaseImpl {
 
 		return GetterUtil.getBoolean(
 			expandoBridge.getAttribute("socialOfficeEnabled"));
+	}
+
+	protected List<Group> getUserSocialOfficeGroups()
+		throws PortalException, SystemException {
+
+		List<Group> groups = GroupServiceUtil.getUserSites();
+
+		List<Group> userSocialOfficeGroups = new ArrayList<Group>();
+
+		for (Group group : groups) {
+			if (isSocialOfficeGroup(group.getGroupId())) {
+				userSocialOfficeGroups.add(group);
+			}
+		}
+
+		return userSocialOfficeGroups;
 	}
 
 }
