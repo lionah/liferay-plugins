@@ -38,6 +38,12 @@ public class SocialOfficeServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.liferay.so.service.impl.SocialOfficeServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static java.util.List<com.liferay.portal.model.Group> getSocialOfficeSites()
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getSocialOfficeSites();
+	}
+
 	public static boolean isSocialOfficeSite(long groupId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {

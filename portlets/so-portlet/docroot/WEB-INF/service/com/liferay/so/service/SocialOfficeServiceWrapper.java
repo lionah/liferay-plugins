@@ -31,6 +31,12 @@ public class SocialOfficeServiceWrapper implements SocialOfficeService,
 		_socialOfficeService = socialOfficeService;
 	}
 
+	public java.util.List<com.liferay.portal.model.Group> getSocialOfficeSites()
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _socialOfficeService.getSocialOfficeSites();
+	}
+
 	public boolean isSocialOfficeSite(long groupId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
