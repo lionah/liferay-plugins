@@ -40,7 +40,7 @@ if (selUser != null) {
 
 	<div id="<portlet:namespace />updateUserDialog">
 		<aui:form action="" method="post" name="dialogForm" onSubmit="<%= taglibOnSubmit %>">
-			<aui:input name="redirect" type="hidden"  value="<%= redirect %>" />
+			<aui:input name="redirect" type="hidden"  value="<%= selUser.getDisplayURL(themeDisplay) %>" />
 			<aui:input name="fieldGroup" type="hidden"  value="<%= curSectionId %>" />
 			<aui:input name="p_u_i_d" type="hidden" value="<%= (selUser != null) ? selUser.getUserId() : 0 %>" />
 
@@ -72,7 +72,14 @@ if (selUser != null) {
 			<div class="form-section selected" id="<portlet:namespace /><%= curSectionId %>">
 				<div id="<portlet:namespace />errorMessage"></div>
 
-				<liferay-util:include page="<%= sectionJsp %>" />
+				<c:choose>
+					<c:when test='<%= curSectionId.equals("details") %>'>
+						<liferay-util:include page='<%= "/contacts_center/user/" + _getSectionJsp(curSectionId) + ".jsp" %>' servletContext="<%= application %>" />
+					</c:when>
+					<c:otherwise>
+						<liferay-util:include page="<%= sectionJsp %>" />
+					</c:otherwise>
+				</c:choose>
 			</div>
 
 			<aui:button-row>
