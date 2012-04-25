@@ -262,7 +262,7 @@
 	</c:when>
 	<c:otherwise>
 		<div class="portlet-msg-info">
-			<a href="<%= themeDisplay.getURLSignIn() %>" target="_top"><liferay-ui:message key="please-sign-in-to-use-the-microblogs-portlet" /></a>
+			<a href="<%= themeDisplay.getURLSignIn() %>" target="_top"><liferay-ui:message key="please-sign-in-to-access-this-application" /></a>
 		</div>
 	</c:otherwise>
 </c:choose>
