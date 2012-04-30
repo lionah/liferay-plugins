@@ -42,6 +42,7 @@ import com.liferay.portlet.documentlibrary.store.DLStoreUtil;
 import com.liferay.portlet.messageboards.model.MBMessage;
 import com.liferay.portlet.messageboards.service.MBMessageLocalServiceUtil;
 import com.liferay.privatemessaging.service.UserThreadLocalServiceUtil;
+import com.liferay.privatemessaging.util.PortletPropsValues;
 import com.liferay.privatemessaging.util.PrivateMessagingUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
@@ -62,6 +63,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Scott Lee
+ * @author Eudaldo Alonso
  */
 public class PrivateMessagingPortlet extends MVCPortlet {
 
@@ -226,6 +228,11 @@ public class PrivateMessagingPortlet extends MVCPortlet {
 
 				checkRecipients(resourceRequest, resourceResponse);
 			}
+			else if (Validator.isNotNull(resourceID) &&
+					 resourceID.equals("getUsers")) {
+
+				getUsers(resourceRequest, resourceResponse);
+			}
 			else {
 				super.serveResource(resourceRequest, resourceResponse);
 			}
@@ -284,6 +291,31 @@ public class PrivateMessagingPortlet extends MVCPortlet {
 		}
 
 		writeJSON(resourceRequest, resourceResponse, jsonObject);
+	}
+
+	protected void getUsers(
+			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+		throws Exception {
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		String keywords = ParamUtil.getString(resourceRequest, "keywords");
+
+		int autocompleteRecipientMax =
+			PortletPropsValues.AUTOCOMPLETE_RECIPIENT_MAX;
+		String autocompleteRecipientType =
+			PortletPropsValues.AUTOCOMPLETE_RECIPIENT_TYPE;
+
+		JSONObject jsonObject = PrivateMessagingUtil.getJSONRecipients(
+			themeDisplay.getUserId(), autocompleteRecipientType, keywords, 0,
+			autocompleteRecipientMax);
+
+		JSONObject results = JSONFactoryUtil.createJSONObject();
+
+		results.put("results", jsonObject);
+
+		writeJSON(resourceRequest, resourceResponse, results);
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(
