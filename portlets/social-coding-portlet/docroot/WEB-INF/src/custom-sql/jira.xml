@@ -13,7 +13,7 @@
 			WHERE
 				(jiraissue.project = ?) AND
 				(jiraaction.created > ?) AND
-				(jiraissue.security < 0)
+				(jiraissue.security IS NULL)
 		]]>
 	</sql>
 	<sql id="com.liferay.socialcoding.service.persistence.JIRAActionFinder.findByCD_P">
@@ -28,7 +28,7 @@
 			WHERE
 				(jiraissue.project = ?) AND
 				(jiraaction.created > ?) AND
-				(jiraissue.security < 0)
+				(jiraissue.security IS NULL)
 		]]>
 	</sql>
 	<sql id="com.liferay.socialcoding.service.persistence.JIRAChangeGroupFinder.countByCD_P">
@@ -43,7 +43,7 @@
 			WHERE
 				(jiraissue.project = ?) AND
 				(changegroup.created > ?) AND
-				(jiraissue.security < 0)
+				(jiraissue.security IS NULL)
 		]]>
 	</sql>
 	<sql id="com.liferay.socialcoding.service.persistence.JIRAChangeGroupFinder.findByCD_P">
@@ -58,7 +58,7 @@
 			WHERE
 				(jiraissue.project = ?) AND
 				(changegroup.created > ?) AND
-				(jiraissue.security < 0)
+				(jiraissue.security IS NULL)
 		]]>
 	</sql>
 	<sql id="com.liferay.socialcoding.service.persistence.JIRAIssueFinder.countByCD_P">
@@ -71,7 +71,7 @@
 				(project = ?) AND
 				(created = updated) AND
 				(created > ?) AND
-				(security < 0)
+				(security IS NULL)
 		]]>
 	</sql>
 	<sql id="com.liferay.socialcoding.service.persistence.JIRAIssueFinder.findByCD_P">
@@ -84,7 +84,7 @@
 				(project = ?) AND
 				(created = updated) AND
 				(created > ?) AND
-				(security < 0)
+				(security IS NULL)
 		]]>
 	</sql>
 </custom-sql>
