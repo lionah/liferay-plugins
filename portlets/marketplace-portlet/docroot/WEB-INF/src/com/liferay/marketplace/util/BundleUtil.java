@@ -17,9 +17,7 @@ package com.liferay.marketplace.util;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PropertiesUtil;
 import com.liferay.portal.kernel.util.StreamUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.File;
@@ -66,7 +64,7 @@ public class BundleUtil {
 			for (CompositeData compositeData : values) {
 				String state = (String)compositeData.get("State");
 
-				if (!state.equals("ACTIVE")) {
+				if ( !ArrayUtil.contains(_INSTALLED_BUNDLE_STATES, state)) {
 					continue;
 				}
 
@@ -112,7 +110,28 @@ public class BundleUtil {
 
 			inputStream = zipFile.getInputStream(zipEntry);
 
-			return PropertiesUtil.load(inputStream, StringPool.UTF8);
+			if (inputStream == null) {
+				return null;
+			}
+
+			Manifest manifest = new Manifest(inputStream);
+
+			Attributes attributes = manifest.getMainAttributes();
+
+			Properties properties = new Properties();
+
+			properties.put(
+				"Bundle-SymbolicName",
+				GetterUtil.getString(
+					attributes.getValue("Bundle-SymbolicName")));
+			properties.put(
+				"Bundle-Version",
+				GetterUtil.getString(attributes.getValue("Bundle-Version")));
+			properties.put(
+				"Web-ContextPath",
+				GetterUtil.getString(attributes.getValue("Web-ContextPath")));
+
+			return properties;
 		}
 		catch (Exception e) {
 		}
@@ -204,5 +223,9 @@ public class BundleUtil {
 
 	private static String _FRAMEWORK_OBJECT_NAME =
 		"osgi.core:type=framework,version=1.5";
+
+	private static final String[] _INSTALLED_BUNDLE_STATES = {
+		"INSTALLED", "RESOLVED", "ACTIVE"
+	};
 
 }
