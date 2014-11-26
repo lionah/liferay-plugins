@@ -340,8 +340,13 @@ public class AppLocalServiceImpl extends AppLocalServiceBaseImpl {
 								attributes.getValue("Bundle-SymbolicName"));
 							bundleVersion = GetterUtil.getString(
 								attributes.getValue("Bundle-Version"));
-							contextName = GetterUtil.getString(
+
+							String webContextPath = GetterUtil.getString(
 								attributes.getValue("Web-ContextPath"));
+
+							contextName = StringUtil.replace(
+								webContextPath, StringPool.FORWARD_SLASH,
+								StringPool.BLANK);
 						}
 						else {
 							contextName = getContextName(fileName);
@@ -426,9 +431,7 @@ public class AppLocalServiceImpl extends AppLocalServiceBaseImpl {
 		for (Module module : modules) {
 			moduleLocalService.deleteModule(module.getModuleId());
 
-			if (Validator.isNotNull(module.getBundleSymbolicName()) &&
-				Validator.isNotNull(module.getBundleVersion())) {
-
+			if (module.isBundle()) {
 				BundleUtil.uninstallBundle(
 					module.getBundleSymbolicName(), module.getBundleVersion());
 

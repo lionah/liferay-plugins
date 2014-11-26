@@ -16,6 +16,8 @@ package com.liferay.marketplace.appmanager.portlet;
 
 import com.liferay.marketplace.service.AppServiceUtil;
 import com.liferay.portal.kernel.deploy.DeployManagerUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.servlet.ServletContextPool;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -59,12 +61,14 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Ryan Park
+ * @author Joan Kim
  */
 public class AppManagerPortlet extends MVCPortlet {
 
@@ -251,6 +255,33 @@ public class AppManagerPortlet extends MVCPortlet {
 		}
 	}
 
+	@Override
+	protected boolean callActionMethod(
+			ActionRequest actionRequest, ActionResponse actionResponse)
+		throws PortletException {
+
+		String actionName = ParamUtil.getString(
+			actionRequest, ActionRequest.ACTION_NAME);
+
+		try {
+			if (actionName.equals("uninstallApp")) {
+				uninstallApp(actionRequest, actionResponse);
+			}
+			else {
+				return super.callActionMethod(actionRequest, actionResponse);
+			}
+		}
+		catch (IllegalStateException ise) {
+			_log.error(
+				"Restart the portal to refresh module framework packages");
+		}
+		catch (Exception e) {
+			throw new PortletException(e);
+		}
+
+		return true;
+	}
+
 	protected int doInstallRemoteApp(
 			String url, UploadPortletRequest uploadPortletRequest,
 			ActionRequest actionRequest, boolean failOnError)
@@ -358,6 +389,8 @@ public class AppManagerPortlet extends MVCPortlet {
 			}
 		}
 	}
+
+	private static Log _log = LogFactoryUtil.getLog(AppManagerPortlet.class);
 
 	private final String DEPLOY_TO_PREFIX = "DEPLOY_TO__";
 

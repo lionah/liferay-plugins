@@ -22,6 +22,8 @@ import com.liferay.marketplace.util.MarketplaceUtil;
 import com.liferay.marketplace.util.PortletPropsValues;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.FileUtil;
@@ -50,6 +52,7 @@ import javax.portlet.PortletException;
 
 /**
  * @author Ryan Park
+ * @author Joan Kim
  */
 public class StorePortlet extends MVCPortlet {
 
@@ -367,6 +370,10 @@ public class StorePortlet extends MVCPortlet {
 				return super.callActionMethod(actionRequest, actionResponse);
 			}
 		}
+		catch (IllegalStateException ise) {
+			_log.error(
+				"Restart the portal to refresh module framework packages");
+		}
 		catch (Exception e) {
 			throw new PortletException(e);
 		}
@@ -412,5 +419,7 @@ public class StorePortlet extends MVCPortlet {
 
 	private static final String _PORTLET_NAMESPACE =
 		PortalUtil.getPortletNamespace("12_WAR_osbportlet");
+
+	private static Log _log = LogFactoryUtil.getLog(StorePortlet.class);
 
 }
