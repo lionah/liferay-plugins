@@ -14,6 +14,7 @@
 
 package com.liferay.marketplace.util;
 
+import com.liferay.compat.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringPool;
 
 /**
@@ -36,27 +37,36 @@ public class ContextUtil {
 			contextName = contextName.substring(0, contextName.length() - 1);
 		}
 
-		while (contextName.contains(StringPool.DASH)) {
-			if (contextName.endsWith("-ext") || contextName.endsWith("-hook") ||
-				contextName.endsWith("-layouttpl") ||
-				contextName.endsWith("-portlet") ||
-				contextName.endsWith("-theme") ||
-				contextName.endsWith("-web")) {
+		while (hasMarketplacePluginType(contextName)) {
+			int pos = contextName.lastIndexOf(StringPool.DASH);
 
+			String pluginType = contextName.substring(
+				pos, contextName.length());
+
+			if (ArrayUtil.contains(_MARKETPLACE_PLUGIN_TYPES, pluginType)) {
 				return contextName;
 			}
 
-			int pos = contextName.lastIndexOf(StringPool.DASH);
-
 			if (pos > 0) {
 				contextName = contextName.substring(0, pos);
-			}
-			else {
-				break;
 			}
 		}
 
 		return contextName;
 	}
+
+	protected static boolean hasMarketplacePluginType(String contextName) {
+		for (String pluginType : _MARKETPLACE_PLUGIN_TYPES) {
+			if (contextName.contains(pluginType)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static final String[] _MARKETPLACE_PLUGIN_TYPES = {
+		"-ext", "-hook", "-layouttpl", "-portlet", "-theme", "-web"
+	};
 
 }
