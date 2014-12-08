@@ -37,35 +37,28 @@ public class ContextUtil {
 			contextName = contextName.substring(0, contextName.length() - 1);
 		}
 
-		while (hasMarketplacePluginType(contextName)) {
-			int pos = contextName.lastIndexOf(StringPool.DASH);
+		int pos = getPluginTypeEndingIndex(contextName);
 
-			String pluginType = contextName.substring(
-				pos, contextName.length());
-
-			if (ArrayUtil.contains(_MARKETPLACE_PLUGIN_TYPES, pluginType)) {
-				return contextName;
-			}
-
-			if (pos > 0) {
-				contextName = contextName.substring(0, pos);
-			}
+		if (pos >= 0) {
+			contextName = contextName.substring(0, pos);
 		}
 
 		return contextName;
 	}
 
-	protected static boolean hasMarketplacePluginType(String contextName) {
-		for (String pluginType : _MARKETPLACE_PLUGIN_TYPES) {
-			if (contextName.contains(pluginType)) {
-				return true;
+	protected static int getPluginTypeEndingIndex(String contextName) {
+		for (String pluginType : _PLUGIN_TYPES) {
+			int pos = contextName.lastIndexOf(pluginType);
+
+			if (pos >= 0) {
+				return pos + pluginType.length();
 			}
 		}
 
-		return false;
+		return -1;
 	}
 
-	private static final String[] _MARKETPLACE_PLUGIN_TYPES = {
+	private static final String[] _PLUGIN_TYPES = {
 		"-ext", "-hook", "-layouttpl", "-portlet", "-theme", "-web"
 	};
 
