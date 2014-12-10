@@ -17,7 +17,9 @@
 <%@ include file="/init.jsp" %>
 
 <%
-Calendar calendar = CalendarFactoryUtil.getCalendar(timeZone, locale);
+int count = ParamUtil.getString(request, "birthdayCount");
+
+System.out.println(count);
 %>
 
-Hello World
+

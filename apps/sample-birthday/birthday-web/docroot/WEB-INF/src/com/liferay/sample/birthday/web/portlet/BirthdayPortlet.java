@@ -17,14 +17,14 @@ package com.liferay.sample.birthday.web.portlet;
 import com.liferay.osgi.util.service.ServiceTrackerUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.sample.birthday.model.Birthday;
 import com.liferay.sample.birthday.service.BirthdayLocalService;
+
+import java.io.IOException;
 
 import java.util.Calendar;
 import java.util.List;
@@ -32,9 +32,8 @@ import java.util.List;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-import javax.portlet.PortletSession;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 import javax.portlet.UnavailableException;
 
 import org.osgi.framework.Bundle;
@@ -74,6 +73,23 @@ public class BirthdayPortlet extends MVCPortlet {
 	}
 
 	@Override
+	public void doView(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws IOException, PortletException {
+
+		List<Birthday> birthdays = _birthdayLocalService.getBirthdaies(
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		renderRequest.setAttribute("birthdays", birthdays);
+
+		int birthdaysCount = _birthdayLocalService.getBirthdaiesCount();
+
+		renderRequest.setAttribute("birthdaysCount", birthdaysCount);
+
+		include("/view.jsp", renderRequest, renderResponse);
+	}
+
+	@Override
 	public void init() throws PortletException {
 		super.init();
 
@@ -92,26 +108,6 @@ public class BirthdayPortlet extends MVCPortlet {
 
 		_birthdayLocalService = ServiceTrackerUtil.getService(
 			BirthdayLocalService.class, bundle.getBundleContext());
-	}
-
-	protected void populateContext(
-			PortletRequest portletRequest, PortletResponse portletResponse,
-			Template template)
-		throws Exception {
-
-		template.put("currentURL", PortalUtil.getCurrentURL(portletRequest));
-		template.put("birthdayClass", Birthday.class);
-
-		List<Birthday> birthdays = _birthdayLocalService.getBirthdaies(
-			QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-
-		template.put("birthdays", birthdays);
-
-		int birthdaysCount = _birthdayLocalService.getBirthdaiesCount();
-
-		template.put("birthdaysCount", birthdaysCount);
-
-		PortletSession portletSession = portletRequest.getPortletSession();
 	}
 
 	private BirthdayLocalService _birthdayLocalService;
