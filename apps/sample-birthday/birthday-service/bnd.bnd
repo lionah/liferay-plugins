@@ -1,0 +1,13 @@
+Bundle-Name: Sample Birthday Service
+Bundle-SymbolicName: com.liferay.sample.birthday
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.sample.birthday.model,\
+	com.liferay.sample.birthday.service,\
+	com.liferay.util.service
+Import-Package:\
+	com.liferay.sample.birthday.model,\
+	com.liferay.sample.birthday.service,\
+	com.liferay.util.service,\
+	*;resolution:="optional"
+Service-Component: *
