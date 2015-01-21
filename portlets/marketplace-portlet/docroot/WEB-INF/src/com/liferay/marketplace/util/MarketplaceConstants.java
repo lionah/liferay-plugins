@@ -16,33 +16,47 @@ package com.liferay.marketplace.util;
 
 import com.liferay.portal.kernel.util.ReleaseInfo;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
+
+import java.util.Locale;
 
 /**
  * @author Ryan Park
+ * @author Joan Kim
  */
 public class MarketplaceConstants {
 
 	public static final String MARKETPLACE_URL_LOGOUT =
 		PortletPropsValues.MARKETPLACE_URL + "/c/portal/logout";
 
-	public static String getPathPurchased() {
-		if (_pathPurchased == null) {
+	public static String getPathPurchased(Locale locale) {
+		if (!_pathPurchased.startsWith(
+				StringPool.SLASH + locale.getLanguage())) {
+
 			_pathPurchased =
-				_MARKETPLACE_PATH_PURCHASED + _MARKETPLACE_CLIENT_BUILD +
-					StringPool.SLASH;
+				getLanguageCode(locale) + _MARKETPLACE_PATH_PURCHASED +
+					_MARKETPLACE_CLIENT_BUILD + StringPool.SLASH;
 		}
 
 		return _pathPurchased + ReleaseInfo.getBuildNumber();
 	}
 
-	public static String getPathStore() {
-		if (_pathStore == null) {
+	public static String getPathStore(Locale locale) {
+		if (!_pathStore.startsWith(StringPool.SLASH + locale.getLanguage())) {
 			_pathStore =
-				_MARKETPLACE_PATH_STORE + _MARKETPLACE_CLIENT_BUILD +
-					StringPool.SLASH;
+				getLanguageCode(locale) + _MARKETPLACE_PATH_STORE +
+					_MARKETPLACE_CLIENT_BUILD + StringPool.SLASH;
 		}
 
 		return _pathStore + ReleaseInfo.getBuildNumber();
+	}
+
+	protected static String getLanguageCode(Locale locale) {
+		if ((locale != null) && Validator.isNotNull(locale.getLanguage())) {
+			return StringPool.SLASH + locale.getLanguage();
+		}
+
+		return StringPool.BLANK;
 	}
 
 	private static final String _MARKETPLACE_CLIENT_BUILD = "3";
@@ -53,7 +67,7 @@ public class MarketplaceConstants {
 	private static final String _MARKETPLACE_PATH_STORE =
 		"/widget/web/guest/mpserver/-/mp_server/store/";
 
-	private static String _pathPurchased;
-	private static String _pathStore;
+	private static String _pathPurchased = StringPool.BLANK;
+	private static String _pathStore = StringPool.BLANK;
 
 }
